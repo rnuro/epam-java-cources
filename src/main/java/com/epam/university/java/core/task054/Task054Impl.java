@@ -1,7 +1,7 @@
 package com.epam.university.java.core.task054;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.io.File;
