@@ -23,7 +23,9 @@ public class Task055Impl implements Task055 {
         Document document = null;
         try {
             DocumentBuilder builder = factory.newDocumentBuilder();
-            document = builder.parse(new File(getClass().getResource("/task055/livingHousesPassports.xml").getPath()));
+            document = builder.parse(new File(getClass()
+                    .getResource("/task055/livingHousesPassports.xml")
+                    .getPath()));
 
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
@@ -55,7 +57,8 @@ public class Task055Impl implements Task055 {
                             houseDefinition.setArea(0.0);
                             break;
                         }
-                        houseDefinition.setArea(Double.parseDouble(item.getFirstChild().getNodeValue()));
+                        houseDefinition
+                                .setArea(Double.parseDouble(item.getFirstChild().getNodeValue()));
                         break;
                     }
                     case "comm_type" : {
