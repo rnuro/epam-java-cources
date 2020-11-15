@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Task055Impl implements Task055 {
     @Override
@@ -42,33 +44,15 @@ public class Task055Impl implements Task055 {
                         break;
                     }
                     case "data_buildingdate" : {
-                        //TODO resolve year with regex
                         if (item.getFirstChild() == null) {
                             break;
                         }
-                        String year = item.getFirstChild().getNodeValue();
-                        if (year.length() == 4) {
-                            houseDefinition.setYear(Integer.parseInt(year));
-                            break;
-                        } else {
-                            String[] split = year.split("[\\D]+");
-                            System.out.println(year);
-                            if (split.length != 2 && split[0].length() == 4) {
-                                houseDefinition.setYear(Integer.parseInt(split[0]));
-                                break;
-                            }
-                            if (split[0].length() == split[1].length() || split[0].length() < 2) {
-                                year = split[1];
-                            } else {
-                                year = split[0].substring(0,2) + split[1];
-                            }
-
-                            houseDefinition.setYear(Integer.parseInt(year));
-                        }
+                        houseDefinition.setYear(normalizeYear(item.getFirstChild().getNodeValue()));
                         break;
                     }
                     case "data_buildingarea" : {
                         if (item.getFirstChild() == null) {
+                            houseDefinition.setArea(0.0);
                             break;
                         }
                         houseDefinition.setArea(Double.parseDouble(item.getFirstChild().getNodeValue()));
@@ -87,10 +71,17 @@ public class Task055Impl implements Task055 {
             }
             data.add(houseDefinition);
         }
+        return new ProcessingContextImpl(data);
+    }
 
-
-
-
-        return null;
+    private static int normalizeYear(String data) {
+        String regex = "([1]|[2])[\\d]{3}";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(data);
+        int year = 0;
+        while (matcher.find()) {
+            year = Integer.parseInt(data.substring(matcher.start(), matcher.end()));
+        }
+        return year;
     }
 }
